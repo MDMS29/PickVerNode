@@ -43,6 +43,10 @@ module.exports = {
     return `asdf install nodejs ${version}`;
   },
 
+  uninstallCommand(version) {
+    return `asdf uninstall nodejs ${version}`;
+  },
+
   binDir() {
     return null;
   }

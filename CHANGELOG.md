@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0
+
+- Opcion "Desinstalar una version..." en el QuickPick: se elige de las instaladas, sin escribir nada.
+- Confirmacion modal; aviso extra si la version elegida es la que esta en uso.
+- Corre en una terminal de VSCode y avisa cuando la version desaparece del disco.
+- Volta no soporta desinstalar versiones de node: se avisa en vez de intentarlo.
+- Comando `PickVerNode: Desinstalar una version de Node`.
+
 ## 0.2.0
 
 - Opcion "Instalar una version..." dentro del listado del QuickPick.

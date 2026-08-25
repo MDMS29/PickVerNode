@@ -90,6 +90,12 @@ async function pick() {
     }
   ];
   if (list.length) {
+    items.push({
+      label: '$(trash) Desinstalar una version...',
+      description: 'elimina una version instalada',
+      alwaysShow: true,
+      uninstall: true
+    });
     items.push({ label: 'Instaladas', kind: vscode.QuickPickItemKind.Separator });
     items.push(
       ...list.map(v => ({
@@ -105,6 +111,7 @@ async function pick() {
   });
   if (!choice) return;
   if (choice.install) return installFlow(p);
+  if (choice.uninstall) return uninstallFlow(p);
   if (choice.version === cur) return;
 
   await switchTo(p, choice.version);
@@ -191,7 +198,7 @@ function runInstall(p, version, input) {
   }
 
   // El instalador corre en la terminal: se espera a que la version aparezca en disco
-  waitForInstall(p, version).then(async ok => {
+  waitForVersion(p, version, true).then(async ok => {
     if (!ok) return;
     await refresh();
     const go = await vscode.window.showInformationMessage(
@@ -202,16 +209,68 @@ function runInstall(p, version, input) {
   });
 }
 
-function waitForInstall(p, version, timeoutMs = 15 * 60 * 1000) {
+// Espera a que la version aparezca (present=true) o desaparezca (present=false) del disco
+function waitForVersion(p, version, present, timeoutMs = 15 * 60 * 1000) {
   const start = Date.now();
   return new Promise(resolve => {
     const tick = async () => {
       if (Date.now() - start > timeoutMs) return resolve(false);
       const list = await p.list(cfg()).catch(() => []);
-      if (list.includes(version)) return resolve(true);
+      if (list.includes(version) === present) return resolve(true);
       setTimeout(tick, 3000);
     };
     setTimeout(tick, 3000);
+  });
+}
+
+async function uninstallFlow(p) {
+  if (!p.uninstallCommand) {
+    vscode.window.showErrorMessage(`PickVerNode: ${p.name} no soporta desinstalar versiones de Node`);
+    return;
+  }
+
+  const list = await p.list(cfg()).catch(() => []);
+  if (!list.length) {
+    vscode.window.showWarningMessage(`PickVerNode (${p.name}): no hay versiones instaladas`);
+    return;
+  }
+
+  const cur = await p.current(cfg());
+  const choice = await vscode.window.showQuickPick(
+    list.map(v => ({
+      label: `${v === cur ? '$(check) ' : ''}${v}`,
+      description: v === cur ? 'en uso' : '',
+      version: v
+    })),
+    { placeHolder: `Version a desinstalar (${p.name})` }
+  );
+  if (!choice) return;
+
+  const warn =
+    choice.version === cur
+      ? `Node ${choice.version} es la version EN USO. Si la desinstalas te quedas sin node activo.`
+      : `Se desinstalara Node ${choice.version}.`;
+  const ok = await vscode.window.showWarningMessage(
+    `PickVerNode: ${warn} Continuar?`,
+    { modal: true },
+    'Desinstalar'
+  );
+  if (!ok) return;
+
+  runUninstall(p, choice.version);
+}
+
+function runUninstall(p, version) {
+  const opts = { name: `PickVerNode: uninstall ${version}`, iconPath: new vscode.ThemeIcon('trash') };
+  if (p.terminalShell) opts.shellPath = p.terminalShell();
+  const term = vscode.window.createTerminal(opts);
+  term.show();
+  term.sendText(p.uninstallCommand(version, cfg()));
+
+  waitForVersion(p, version, false).then(async ok => {
+    if (!ok) return;
+    await refresh();
+    vscode.window.showInformationMessage(`PickVerNode: Node ${version} desinstalada.`);
   });
 }
 
@@ -242,6 +301,14 @@ function activate(context) {
     vscode.commands.registerCommand('vnode.pick', pick),
     vscode.commands.registerCommand('vnode.refresh', () => resolveProvider({ force: true }).then(refresh)),
     vscode.commands.registerCommand('vnode.selectProvider', selectProvider),
+    vscode.commands.registerCommand('vnode.uninstall', async () => {
+      const p = await resolveProvider();
+      if (!p) {
+        vscode.window.showErrorMessage('PickVerNode: no se detecto ningun gestor');
+        return;
+      }
+      await uninstallFlow(p);
+    }),
     vscode.commands.registerCommand('vnode.install', async () => {
       const p = await resolveProvider();
       if (!p) {

@@ -27,6 +27,16 @@ En el QuickPick, la primera opcion es **Instalar una version...** (o comando
   (`nvm install`, `fnm install`, `volta install node@`, `asdf install nodejs`).
 - Al terminar avisa y ofrece **Usarla ahora**.
 
+## Desinstalar una version
+
+Opcion **Desinstalar una version...** del QuickPick (o comando
+`PickVerNode: Desinstalar una version de Node`).
+
+- Solo se elige de las versiones instaladas, no se escribe nada.
+- Pide confirmacion; si la version esta en uso, avisa que te quedas sin node activo.
+- Corre `nvm uninstall`, `fnm uninstall` o `asdf uninstall nodejs` en una terminal de VSCode.
+- Volta no permite desinstalar versiones de node: la opcion avisa y no hace nada.
+
 ## Notas
 
 - nvm-windows exige consola real y admin: por eso `cmd.exe` + `Start-Process -Verb RunAs`.

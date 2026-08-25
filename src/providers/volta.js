@@ -40,6 +40,9 @@ module.exports = {
     return `volta install node@${version}`;
   },
 
+  // Volta no expone desinstalar versiones de node (solo paquetes)
+  uninstallCommand: null,
+
   binDir() {
     return null;
   }

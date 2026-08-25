@@ -58,6 +58,11 @@ module.exports = {
     return `"${exe}" install ${version}`;
   },
 
+  uninstallCommand(version, cfg) {
+    const { exe } = settings(cfg.get('nvmPath', ''));
+    return `"${exe}" uninstall ${version}`;
+  },
+
   // La terminal por defecto puede ser PowerShell; cmd.exe evita problemas de quoting
   terminalShell() {
     return process.env.ComSpec || 'cmd.exe';
