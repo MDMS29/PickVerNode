@@ -2,7 +2,7 @@
   "name": "pickvernode",
   "displayName": "pickvernode",
   "description": "Cambia la version de Node desde la barra de estado (nvm, nvm-windows, fnm, Volta, asdf)",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "publisher": "MoiDev",
   "engines": {
     "vscode": "^1.85.0"
@@ -27,6 +27,10 @@
       {
         "command": "vnode.uninstall",
         "title": "PickVerNode: Desinstalar una version de Node"
+      },
+      {
+        "command": "vnode.writeNvmrc",
+        "title": "PickVerNode: Guardar .nvmrc con la version actual"
       },
       {
         "command": "vnode.refresh",
@@ -67,6 +71,16 @@
           "type": "boolean",
           "default": true,
           "description": "Windows: ejecutar 'nvm use' elevado (nvm-windows necesita admin para el symlink)"
+        },
+        "vnode.autoWriteNvmrc": {
+          "type": "boolean",
+          "default": false,
+          "description": "Actualizar el .nvmrc del proyecto cada vez que se cambia de version"
+        },
+        "vnode.nvmrcPrefixV": {
+          "type": "boolean",
+          "default": true,
+          "description": "Escribir el .nvmrc con prefijo v (v20.18.0) en vez de 20.18.0"
         }
       }
     }

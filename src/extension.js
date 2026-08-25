@@ -1,6 +1,7 @@
 const vscode = require('vscode');
 const providers = require('./providers');
 const nodeIndex = require('./nodeIndex');
+const nvmrc = require('./nvmrc');
 const U = require('./util');
 
 const STATE_PROVIDER = 'vnode.provider';
@@ -89,6 +90,14 @@ async function pick() {
       install: true
     }
   ];
+  if (cur && nvmrc.folders().length) {
+    items.push({
+      label: `$(file-code) Guardar .nvmrc (${cur})`,
+      description: 'fija la version actual en la raiz del proyecto',
+      alwaysShow: true,
+      nvmrc: true
+    });
+  }
   if (list.length) {
     items.push({
       label: '$(trash) Desinstalar una version...',
@@ -112,6 +121,7 @@ async function pick() {
   if (!choice) return;
   if (choice.install) return installFlow(p);
   if (choice.uninstall) return uninstallFlow(p);
+  if (choice.nvmrc) return writeNvmrc();
   if (choice.version === cur) return;
 
   await switchTo(p, choice.version);
@@ -129,6 +139,7 @@ async function switchTo(p, version) {
         return;
       }
       await refresh();
+      if (cfg().get('autoWriteNvmrc', false)) await writeNvmrc(version, { silent: true });
       vscode.window.showInformationMessage(
         `PickVerNode: Node ${version} activo (${p.name}). Reabre las terminales para que tomen el cambio.`
       );
@@ -274,6 +285,45 @@ function runUninstall(p, version) {
   });
 }
 
+// Crea o actualiza el .nvmrc de la carpeta abierta con la version en uso
+async function writeNvmrc(version, { silent = false } = {}) {
+  if (!nvmrc.folders().length) {
+    if (!silent) vscode.window.showErrorMessage('PickVerNode: no hay ninguna carpeta abierta');
+    return;
+  }
+
+  let v = version;
+  if (!v) {
+    const p = await resolveProvider();
+    v = p && (await p.current(cfg()));
+  }
+  if (!v) {
+    if (!silent) vscode.window.showErrorMessage('PickVerNode: no se pudo determinar la version actual');
+    return;
+  }
+
+  const folder = nvmrc.folders().length === 1 ? nvmrc.folders()[0] : await nvmrc.pickFolder();
+  if (!folder) return;
+
+  let result;
+  try {
+    result = nvmrc.write(folder, v, { prefixV: cfg().get('nvmrcPrefixV', true) });
+  } catch (e) {
+    if (!silent) vscode.window.showErrorMessage(`PickVerNode: no se pudo escribir ${nvmrc.FILE} - ${e.message}`);
+    return;
+  }
+  if (silent) return;
+
+  const msg = result.previous
+    ? `PickVerNode: ${nvmrc.FILE} actualizado (${result.previous} -> ${result.content})`
+    : `PickVerNode: ${nvmrc.FILE} creado con ${result.content}`;
+  const open = await vscode.window.showInformationMessage(msg, 'Abrir');
+  if (open) {
+    const doc = await vscode.workspace.openTextDocument(result.file);
+    await vscode.window.showTextDocument(doc);
+  }
+}
+
 async function selectProvider() {
   const found = await providers.detectAll(cfg());
   const items = providers.forPlatform().map(p => ({
@@ -301,6 +351,7 @@ function activate(context) {
     vscode.commands.registerCommand('vnode.pick', pick),
     vscode.commands.registerCommand('vnode.refresh', () => resolveProvider({ force: true }).then(refresh)),
     vscode.commands.registerCommand('vnode.selectProvider', selectProvider),
+    vscode.commands.registerCommand('vnode.writeNvmrc', () => writeNvmrc()),
     vscode.commands.registerCommand('vnode.uninstall', async () => {
       const p = await resolveProvider();
       if (!p) {

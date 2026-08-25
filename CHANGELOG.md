@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.0
+
+- Opcion "Guardar .nvmrc" en el QuickPick: crea o actualiza `.nvmrc` en la raiz de la carpeta abierta
+  con la version de Node en uso.
+- En workspaces multi-root pregunta en que carpeta escribirlo.
+- Si el archivo ya existe, se actualiza y el aviso muestra el valor anterior.
+- Config `vnode.autoWriteNvmrc` para actualizarlo automaticamente al cambiar de version.
+- Config `vnode.nvmrcPrefixV` para elegir `v20.18.0` o `20.18.0`.
+- Comando `PickVerNode: Guardar .nvmrc con la version actual`.
+
 ## 0.3.0
 
 - Opcion "Desinstalar una version..." en el QuickPick: se elige de las instaladas, sin escribir nada.

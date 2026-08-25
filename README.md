@@ -37,6 +37,17 @@ Opcion **Desinstalar una version...** del QuickPick (o comando
 - Corre `nvm uninstall`, `fnm uninstall` o `asdf uninstall nodejs` en una terminal de VSCode.
 - Volta no permite desinstalar versiones de node: la opcion avisa y no hace nada.
 
+## .nvmrc
+
+Opcion **Guardar .nvmrc (X.Y.Z)** del QuickPick (o comando
+`PickVerNode: Guardar .nvmrc con la version actual`).
+
+- Escribe `.nvmrc` en la raiz de la carpeta abierta con la version que se esta usando.
+- Si ya existe, lo actualiza; el aviso muestra `anterior -> nuevo` y permite abrirlo.
+- Multi-root: pregunta en que carpeta escribirlo.
+- `vnode.autoWriteNvmrc: true` lo actualiza solo, cada vez que cambias de version.
+- `vnode.nvmrcPrefixV` controla si se escribe `v20.18.0` (por defecto) o `20.18.0`.
+
 ## Notas
 
 - nvm-windows exige consola real y admin: por eso `cmd.exe` + `Start-Process -Verb RunAs`.
