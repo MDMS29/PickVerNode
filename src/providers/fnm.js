@@ -54,6 +54,10 @@ module.exports = {
     return fnm(`default ${version}`);
   },
 
+  installCommand(version) {
+    return `fnm install ${version}`;
+  },
+
   binDir(version) {
     const base = path.join(versionsDir(), `v${version}`, 'installation');
     return U.IS_WIN ? base : path.join(base, 'bin');

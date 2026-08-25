@@ -36,6 +36,10 @@ module.exports = {
     return volta(`install node@${version}`);
   },
 
+  installCommand(version) {
+    return `volta install node@${version}`;
+  },
+
   binDir() {
     return null;
   }

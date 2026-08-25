@@ -39,6 +39,10 @@ module.exports = {
     }
   },
 
+  installCommand(version) {
+    return `asdf install nodejs ${version}`;
+  },
+
   binDir() {
     return null;
   }

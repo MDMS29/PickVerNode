@@ -2,7 +2,7 @@
   "name": "pickvernode",
   "displayName": "pickvernode",
   "description": "Cambia la version de Node desde la barra de estado (nvm, nvm-windows, fnm, Volta, asdf)",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "MoiDev",
   "engines": {
     "vscode": "^1.85.0"
@@ -19,6 +19,10 @@
       {
         "command": "vnode.pick",
         "title": "PickVerNode: Cambiar version de Node"
+      },
+      {
+        "command": "vnode.install",
+        "title": "PickVerNode: Instalar una version de Node"
       },
       {
         "command": "vnode.refresh",

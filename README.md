@@ -15,6 +15,18 @@ Click -> lista de versiones instaladas -> cambia.
 
 Deteccion automatica; `vNode: Elegir gestor de versiones` para forzar uno.
 
+## Instalar una version
+
+En el QuickPick, la primera opcion es **Instalar una version...** (o comando
+`PickVerNode: Instalar una version de Node`).
+
+- Acepta `20.18.0`, `20`, `20.18`, `lts` o `latest`; los prefijos se resuelven a la ultima de esa serie.
+- La version se valida contra `https://nodejs.org/dist/index.json`. Si no existe, avisa y no instala.
+- Sin red solo se acepta una version exacta `X.Y.Z`, pidiendo confirmacion (sin verificar).
+- La instalacion corre en una terminal de VSCode (igual que el cmd), con el comando del gestor
+  (`nvm install`, `fnm install`, `volta install node@`, `asdf install nodejs`).
+- Al terminar avisa y ofrece **Usarla ahora**.
+
 ## Notas
 
 - nvm-windows exige consola real y admin: por eso `cmd.exe` + `Start-Process -Verb RunAs`.
