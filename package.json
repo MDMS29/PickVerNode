@@ -1,0 +1,103 @@
+{
+  "name": "pickvernode",
+  "displayName": "pickvernode",
+  "description": "Cambia la version de Node desde la barra de estado (nvm, nvm-windows, fnm, Volta, asdf)",
+  "version": "0.1.0",
+  "publisher": "MoiDev",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "vnode.pick",
+        "title": "PickVerNode: Cambiar version de Node"
+      },
+      {
+        "command": "vnode.refresh",
+        "title": "PickVerNode: Refrescar version actual"
+      },
+      {
+        "command": "vnode.selectProvider",
+        "title": "PickVerNode: Elegir gestor de versiones"
+      }
+    ],
+    "configuration": {
+      "title": "PickVerNode",
+      "properties": {
+        "vnode.provider": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "nvm-windows",
+            "nvm",
+            "fnm",
+            "volta",
+            "asdf"
+          ],
+          "default": "auto",
+          "description": "Gestor de versiones de Node a usar"
+        },
+        "vnode.updateTerminalEnv": {
+          "type": "boolean",
+          "default": true,
+          "description": "Prefijar el bin de la version elegida en terminal.integrated.env (solo gestores por shell: nvm POSIX, fnm)"
+        },
+        "vnode.nvmPath": {
+          "type": "string",
+          "default": "",
+          "description": "Ruta a nvm.exe en Windows (vacio = %APPDATA%\\nvm\\nvm.exe)"
+        },
+        "vnode.elevate": {
+          "type": "boolean",
+          "default": true,
+          "description": "Windows: ejecutar 'nvm use' elevado (nvm-windows necesita admin para el symlink)"
+        }
+      }
+    }
+  },
+  "license": "MIT",
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
+  "keywords": [
+    "node",
+    "nvm",
+    "fnm",
+    "volta",
+    "asdf",
+    "version manager"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TU-USUARIO/pickvernode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TU-USUARIO/pickvernode/issues"
+  },
+  "scripts": {
+    "lint": "eslint src",
+    "test": "vscode-test",
+    "icon": "node scripts/make-icon.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "24.x",
+    "@types/vscode": "^1.85.0",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.0.0",
+    "@vscode/vsce": "^3.6.0",
+    "eslint": "^10.5.0"
+  }
+}
