@@ -2,7 +2,7 @@
   "name": "PickVerNode",
   "displayName": "PickVerNode",
   "description": "Instala, cambia y elimina la version de Node desde la barra de estado (nvm, nvm-windows, fnm, Volta, asdf)",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "publisher": "MoiDev",
   "engines": {
     "vscode": "^1.85.0"
