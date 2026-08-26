@@ -4,13 +4,13 @@ const nodeIndex = require('./nodeIndex');
 const nvmrc = require('./nvmrc');
 const U = require('./util');
 
-const STATE_PROVIDER = 'vnode.provider';
+const STATE_PROVIDER = 'pickvernode.provider';
 let item;
 let active = null; // provider en uso
 let ctx;
 
 function cfg() {
-  return vscode.workspace.getConfiguration('vnode');
+  return vscode.workspace.getConfiguration('pickvernode');
 }
 
 function envKey() {
@@ -342,17 +342,17 @@ function activate(context) {
   ctx = context;
 
   item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-  item.command = 'vnode.pick';
+  item.command = 'pickvernode.pick';
   item.text = '$(versions) Node ...';
   item.show();
 
   context.subscriptions.push(
     item,
-    vscode.commands.registerCommand('vnode.pick', pick),
-    vscode.commands.registerCommand('vnode.refresh', () => resolveProvider({ force: true }).then(refresh)),
-    vscode.commands.registerCommand('vnode.selectProvider', selectProvider),
-    vscode.commands.registerCommand('vnode.writeNvmrc', () => writeNvmrc()),
-    vscode.commands.registerCommand('vnode.uninstall', async () => {
+    vscode.commands.registerCommand('pickvernode.pick', pick),
+    vscode.commands.registerCommand('pickvernode.refresh', () => resolveProvider({ force: true }).then(refresh)),
+    vscode.commands.registerCommand('pickvernode.selectProvider', selectProvider),
+    vscode.commands.registerCommand('pickvernode.writeNvmrc', () => writeNvmrc()),
+    vscode.commands.registerCommand('pickvernode.uninstall', async () => {
       const p = await resolveProvider();
       if (!p) {
         vscode.window.showErrorMessage('PickVerNode: no se detecto ningun gestor');
@@ -360,7 +360,7 @@ function activate(context) {
       }
       await uninstallFlow(p);
     }),
-    vscode.commands.registerCommand('vnode.install', async () => {
+    vscode.commands.registerCommand('pickvernode.install', async () => {
       const p = await resolveProvider();
       if (!p) {
         vscode.window.showErrorMessage('PickVerNode: no se detecto ningun gestor');
@@ -369,7 +369,7 @@ function activate(context) {
       await installFlow(p);
     }),
     vscode.workspace.onDidChangeConfiguration(e => {
-      if (e.affectsConfiguration('vnode')) resolveProvider({ force: true }).then(refresh);
+      if (e.affectsConfiguration('pickvernode')) resolveProvider({ force: true }).then(refresh);
     })
   );
 

@@ -1,7 +1,7 @@
 {
-  "name": "pickvernode",
-  "displayName": "pickvernode",
-  "description": "Cambia la version de Node desde la barra de estado (nvm, nvm-windows, fnm, Volta, asdf)",
+  "name": "PickVerNode",
+  "displayName": "PickVerNode",
+  "description": "Instala, cambia y elimina la version de Node desde la barra de estado (nvm, nvm-windows, fnm, Volta, asdf)",
   "version": "0.4.0",
   "publisher": "MoiDev",
   "engines": {
@@ -17,34 +17,34 @@
   "contributes": {
     "commands": [
       {
-        "command": "vnode.pick",
+        "command": "pickvernode.pick",
         "title": "PickVerNode: Cambiar version de Node"
       },
       {
-        "command": "vnode.install",
+        "command": "pickvernode.install",
         "title": "PickVerNode: Instalar una version de Node"
       },
       {
-        "command": "vnode.uninstall",
+        "command": "pickvernode.uninstall",
         "title": "PickVerNode: Desinstalar una version de Node"
       },
       {
-        "command": "vnode.writeNvmrc",
+        "command": "pickvernode.writeNvmrc",
         "title": "PickVerNode: Guardar .nvmrc con la version actual"
       },
       {
-        "command": "vnode.refresh",
+        "command": "pickvernode.refresh",
         "title": "PickVerNode: Refrescar version actual"
       },
       {
-        "command": "vnode.selectProvider",
+        "command": "pickvernode.selectProvider",
         "title": "PickVerNode: Elegir gestor de versiones"
       }
     ],
     "configuration": {
       "title": "PickVerNode",
       "properties": {
-        "vnode.provider": {
+        "pickvernode.provider": {
           "type": "string",
           "enum": [
             "auto",
@@ -57,27 +57,27 @@
           "default": "auto",
           "description": "Gestor de versiones de Node a usar"
         },
-        "vnode.updateTerminalEnv": {
+        "pickvernode.updateTerminalEnv": {
           "type": "boolean",
           "default": true,
           "description": "Prefijar el bin de la version elegida en terminal.integrated.env (solo gestores por shell: nvm POSIX, fnm)"
         },
-        "vnode.nvmPath": {
+        "pickvernode.nvmPath": {
           "type": "string",
           "default": "",
           "description": "Ruta a nvm.exe en Windows (vacio = %APPDATA%\\nvm\\nvm.exe)"
         },
-        "vnode.elevate": {
+        "pickvernode.elevate": {
           "type": "boolean",
           "default": true,
           "description": "Windows: ejecutar 'nvm use' elevado (nvm-windows necesita admin para el symlink)"
         },
-        "vnode.autoWriteNvmrc": {
+        "pickvernode.autoWriteNvmrc": {
           "type": "boolean",
           "default": false,
           "description": "Actualizar el .nvmrc del proyecto cada vez que se cambia de version"
         },
-        "vnode.nvmrcPrefixV": {
+        "pickvernode.nvmrcPrefixV": {
           "type": "boolean",
           "default": true,
           "description": "Escribir el .nvmrc con prefijo v (v20.18.0) en vez de 20.18.0"
@@ -97,7 +97,8 @@
     "fnm",
     "volta",
     "asdf",
-    "version manager"
+    "version manager",
+    "node"
   ],
   "repository": {
     "type": "git",
