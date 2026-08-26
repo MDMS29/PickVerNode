@@ -48,6 +48,14 @@ module.exports = {
     );
   },
 
+  installCommand(version) {
+    return `nvm install ${version}`;
+  },
+
+  uninstallCommand(version) {
+    return `nvm uninstall ${version}`;
+  },
+
   binDir(version) {
     return path.join(versionsDir(), `v${version}`, 'bin');
   }

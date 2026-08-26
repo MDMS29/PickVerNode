@@ -15,6 +15,39 @@ Click -> lista de versiones instaladas -> cambia.
 
 Deteccion automatica; `vNode: Elegir gestor de versiones` para forzar uno.
 
+## Instalar una version
+
+En el QuickPick, la primera opcion es **Instalar una version...** (o comando
+`PickVerNode: Instalar una version de Node`).
+
+- Acepta `20.18.0`, `20`, `20.18`, `lts` o `latest`; los prefijos se resuelven a la ultima de esa serie.
+- La version se valida contra `https://nodejs.org/dist/index.json`. Si no existe, avisa y no instala.
+- Sin red solo se acepta una version exacta `X.Y.Z`, pidiendo confirmacion (sin verificar).
+- La instalacion corre en una terminal de VSCode (igual que el cmd), con el comando del gestor
+  (`nvm install`, `fnm install`, `volta install node@`, `asdf install nodejs`).
+- Al terminar avisa y ofrece **Usarla ahora**.
+
+## Desinstalar una version
+
+Opcion **Desinstalar una version...** del QuickPick (o comando
+`PickVerNode: Desinstalar una version de Node`).
+
+- Solo se elige de las versiones instaladas, no se escribe nada.
+- Pide confirmacion; si la version esta en uso, avisa que te quedas sin node activo.
+- Corre `nvm uninstall`, `fnm uninstall` o `asdf uninstall nodejs` en una terminal de VSCode.
+- Volta no permite desinstalar versiones de node: la opcion avisa y no hace nada.
+
+## .nvmrc
+
+Opcion **Guardar .nvmrc (X.Y.Z)** del QuickPick (o comando
+`PickVerNode: Guardar .nvmrc con la version actual`).
+
+- Escribe `.nvmrc` en la raiz de la carpeta abierta con la version que se esta usando.
+- Si ya existe, lo actualiza; el aviso muestra `anterior -> nuevo` y permite abrirlo.
+- Multi-root: pregunta en que carpeta escribirlo.
+- `vnode.autoWriteNvmrc: true` lo actualiza solo, cada vez que cambias de version.
+- `vnode.nvmrcPrefixV` controla si se escribe `v20.18.0` (por defecto) o `20.18.0`.
+
 ## Notas
 
 - nvm-windows exige consola real y admin: por eso `cmd.exe` + `Start-Process -Verb RunAs`.
