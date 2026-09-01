@@ -1,146 +1,151 @@
 # PickVerNode
 
-Cambia la version de Node desde la barra de estado de VSCode. Sin terminal, sin recordar comandos.
+> 🇪🇸 Versión en español: [README.es.md](README.es.md)
 
-## ¿Que es?
+Switch your Node version from the VS Code status bar. No terminal, no memorizing commands.
 
-Extension de VSCode que muestra un item en la barra de estado (abajo a la derecha) con la
-version de Node activa: `$(versions) Node 20.18.0`.
+## What is it?
 
-Un click abre un QuickPick con todo lo que puedes hacer: cambiar, instalar, desinstalar y
-guardar `.nvmrc`.
+A VS Code extension that shows a status bar item (bottom right) with the active Node version:
+`$(versions) Node 20.18.0`.
 
-No es un gestor de versiones: es un mando a distancia para el que ya tienes
-(nvm, nvm-windows, fnm, Volta o asdf).
+One click opens a QuickPick with everything you can do: switch, install, uninstall and write `.nvmrc`.
 
-## ¿Para que sirve?
+It is **not** a version manager: it is a remote control for the one you already have
+(nvm, nvm-windows, fnm, Volta or asdf).
 
-- Ver de un vistazo con que version de Node estas trabajando.
-- Saltar entre proyectos que exigen versiones distintas sin abrir terminal.
-- Instalar/desinstalar versiones sin buscar la sintaxis de cada gestor.
-- Dejar fijada la version del proyecto en `.nvmrc` para el resto del equipo.
+## Why?
 
-## ¿Como funciona?
+- See at a glance which Node version you are working with.
+- Jump between projects that require different versions without opening a terminal.
+- Install/uninstall versions without looking up each manager's syntax.
+- Pin the project version in `.nvmrc` for the rest of the team.
 
-1. Al arrancar VSCode detecta que gestor tienes instalado (o usas `pickvernode.provider` para forzar uno).
-2. Le pregunta a ese gestor la version activa y la lista de instaladas.
-3. Cuando eliges una version, ejecuta el comando propio del gestor:
+## How it works
 
-| Gestor | SO | Cambiar | Instalar | Desinstalar | Alcance |
+1. On startup it detects which manager you have installed (or force one with `pickvernode.provider`).
+2. It asks that manager for the active version and the list of installed ones.
+3. When you pick a version, it runs that manager's own command:
+
+| Manager | OS | Switch | Install | Uninstall | Scope |
 |---|---|---|---|---|---|
-| nvm-windows | Windows | `nvm.exe use X` via `cmd.exe` elevado (UAC) | `nvm.exe install X` | `nvm.exe uninstall X` | global al SO |
-| fnm | Win/macOS/Linux | `fnm default X` + PATH en terminales de VSCode | `fnm install X` | `fnm uninstall X` | shells nuevas |
-| nvm (POSIX) | macOS/Linux | `nvm alias default X && nvm use X` + PATH en terminales de VSCode | `nvm install X` | `nvm uninstall X` | shells nuevas |
-| Volta | Win/macOS/Linux | `volta install node@X` | `volta install node@X` | no soportado | global (shims) |
+| nvm-windows | Windows | `nvm.exe use X` via elevated `cmd.exe` (UAC) | `nvm.exe install X` | `nvm.exe uninstall X` | OS-wide |
+| fnm | Win/macOS/Linux | `fnm default X` + PATH in VS Code terminals | `fnm install X` | `fnm uninstall X` | new shells |
+| nvm (POSIX) | macOS/Linux | `nvm alias default X && nvm use X` + PATH in VS Code terminals | `nvm install X` | `nvm uninstall X` | new shells |
+| Volta | Win/macOS/Linux | `volta install node@X` | `volta install node@X` | not supported | global (shims) |
 | asdf | macOS/Linux | `asdf set -u nodejs X` (fallback `asdf global nodejs X`) | `asdf install nodejs X` | `asdf uninstall nodejs X` | global (shims) |
 
-Instalar y desinstalar corren en una terminal visible de VSCode (ves el progreso real del gestor);
-la extension vigila el disco y avisa cuando la version aparece o desaparece.
+Install and uninstall run in a visible VS Code terminal (you see the manager's real progress);
+the extension watches the disk and notifies when the version appears or disappears.
 
-> Las terminales ya abiertas conservan la version vieja. **Reabrelas.**
+> Already-open terminals keep the old version. **Reopen them.**
 
-## Funcionalidades
+## Features
 
-| Accion | Desde el QuickPick | Comando (`Ctrl+Shift+P`) |
+| Action | From the QuickPick | Command (`Ctrl+Shift+P`) |
 |---|---|---|
-| Cambiar de version | click en la version | `PickVerNode: Cambiar version de Node` |
-| Instalar una version | `Instalar una version...` | `PickVerNode: Instalar una version de Node` |
-| Desinstalar una version | `Desinstalar una version...` | `PickVerNode: Desinstalar una version de Node` |
-| Guardar `.nvmrc` | `Guardar .nvmrc (X.Y.Z)` | `PickVerNode: Guardar .nvmrc con la version actual` |
-| Elegir gestor | - | `PickVerNode: Elegir gestor de versiones` |
-| Refrescar el estado | - | `PickVerNode: Refrescar version actual` |
+| Switch version | click the version | `PickVerNode: Cambiar version de Node` |
+| Install a version | `Instalar una version...` | `PickVerNode: Instalar una version de Node` |
+| Uninstall a version | `Desinstalar una version...` | `PickVerNode: Desinstalar una version de Node` |
+| Write `.nvmrc` | `Guardar .nvmrc (X.Y.Z)` | `PickVerNode: Guardar .nvmrc con la version actual` |
+| Choose manager | - | `PickVerNode: Elegir gestor de versiones` |
+| Refresh state | - | `PickVerNode: Refrescar version actual` |
 
 ---
 
 ## Tutorial
 
-### 0. Requisito previo
+### 0. Requirement
 
-Ten instalado uno de: [nvm-windows](https://github.com/coreybutler/nvm-windows),
+Have one of these installed: [nvm-windows](https://github.com/coreybutler/nvm-windows),
 [nvm](https://github.com/nvm-sh/nvm), [fnm](https://github.com/Schniz/fnm),
-[Volta](https://volta.sh) o [asdf](https://asdf-vm.com).
+[Volta](https://volta.sh) or [asdf](https://asdf-vm.com).
 
-Si el item de la barra muestra `Node $(warning)`, no se detecto ninguno.
+If the status bar shows `Node $(warning)`, none was detected.
 
-### 1. Cambiar de version
+### 1. Switch version
 
-1. Click en `$(versions) Node X.Y.Z` (barra de estado, abajo a la derecha).
-2. En la lista **Instaladas**, elige la version. La actual lleva `$(check)` y dice `en uso`.
-3. Sale una notificacion de progreso y luego `Node X.Y.Z activo`.
-4. **Reabre las terminales** para que tomen el cambio.
+1. Click `$(versions) Node X.Y.Z` in the status bar (bottom right).
+2. In the **Instaladas** list, pick a version. The current one has `$(check)` and says `en uso`.
+3. A progress notification appears, then `Node X.Y.Z activo`.
+4. **Reopen your terminals** so they pick up the change.
 
-En Windows con nvm-windows saltara el UAC: es obligatorio, `nvm use` necesita admin para el symlink.
+On Windows with nvm-windows a UAC prompt appears: it is required, `nvm use` needs admin to rebuild the symlink.
 
-### 2. Instalar una version
+### 2. Install a version
 
-1. Abre el QuickPick -> **Instalar una version...**
-2. Escribe la version. Vale `20.18.0`, `20`, `20.18`, `lts` o `latest`;
-   los prefijos se resuelven a la ultima de esa serie (`20` -> `20.19.4`).
-3. Se valida contra `https://nodejs.org/dist/index.json`.
-   - Si no existe -> avisa y no instala.
-   - Si ya la tienes -> te ofrece **Usarla**.
-   - Sin red -> solo acepta `X.Y.Z` exacta y pide confirmacion (sin verificar).
-4. Se abre una terminal `PickVerNode: install X.Y.Z` con el comando del gestor
+1. Open the QuickPick -> **Instalar una version...**
+2. Type the version. `20.18.0`, `20`, `20.18`, `lts` or `latest` all work;
+   prefixes resolve to the latest of that line (`20` -> `20.19.4`).
+3. It is validated against `https://nodejs.org/dist/index.json`.
+   - Not found -> warns and does not install.
+   - Already installed -> offers to **switch to it**.
+   - Offline -> only exact `X.Y.Z` is accepted, with a confirmation (unverified).
+4. A terminal `PickVerNode: install X.Y.Z` opens with the manager's command
    (`nvm install`, `fnm install`, `volta install node@`, `asdf install nodejs`).
-5. Al terminar: `Node X.Y.Z instalada` + boton **Usarla ahora**.
+5. When done: `Node X.Y.Z instalada` + **Usarla ahora** button.
 
-### 3. Desinstalar una version
+### 3. Uninstall a version
 
 1. QuickPick -> **Desinstalar una version...**
-2. Elige de la lista (solo instaladas, no se escribe nada a mano).
-3. Confirma en el dialogo modal. Si la version esta **en uso**, avisa de que te quedas sin node activo.
-4. Corre en terminal `nvm uninstall`, `fnm uninstall` o `asdf uninstall nodejs`, y avisa al terminar.
+2. Pick from the list (installed only, nothing to type by hand).
+3. Confirm in the modal dialog. If the version is **in use**, it warns you will be left with no active node.
+4. Runs in a terminal (`nvm uninstall`, `fnm uninstall`, `asdf uninstall nodejs`) and notifies when finished.
 
-> Volta no permite desinstalar versiones de node: la opcion avisa y no hace nada.
+> Volta cannot uninstall node versions: the option warns and does nothing.
 
-### 4. Guardar `.nvmrc`
+### 4. Write `.nvmrc`
 
-1. QuickPick -> **Guardar .nvmrc (X.Y.Z)** (solo aparece si hay carpeta abierta).
-2. Escribe `.nvmrc` en la raiz con la version en uso.
-   - Si ya existe, lo actualiza y el aviso muestra `anterior -> nuevo`, con boton **Abrir**.
-   - Multi-root: pregunta en que carpeta escribirlo.
-3. Opcional: `pickvernode.autoWriteNvmrc: true` lo actualiza solo cada vez que cambias de version.
-4. Opcional: `pickvernode.nvmrcPrefixV: false` escribe `20.18.0` en vez de `v20.18.0`.
+1. QuickPick -> **Guardar .nvmrc (X.Y.Z)** (only shown when a folder is open).
+2. Writes `.nvmrc` at the root with the version in use.
+   - If it exists, it is updated and the notice shows `old -> new`, with an **Abrir** button.
+   - Multi-root: asks which folder to write it in.
+3. Optional: `pickvernode.autoWriteNvmrc: true` updates it automatically on every switch.
+4. Optional: `pickvernode.nvmrcPrefixV: false` writes `20.18.0` instead of `v20.18.0`.
 
-### 5. Forzar un gestor
+### 5. Force a manager
 
-Si tienes varios instalados y quiere usar otro:
+If you have several installed and want a specific one:
 
-- `Ctrl+Shift+P` -> `PickVerNode: Elegir gestor de versiones` (se recuerda entre sesiones), o
-- fija `pickvernode.provider` en los settings (`nvm-windows`, `nvm`, `fnm`, `volta`, `asdf`).
+- `Ctrl+Shift+P` -> `PickVerNode: Elegir gestor de versiones` (remembered across sessions), or
+- set `pickvernode.provider` in your settings (`nvm-windows`, `nvm`, `fnm`, `volta`, `asdf`).
 
 ---
 
-## Configuracion
+## Settings
 
-| Ajuste | Por defecto | Que hace |
+| Setting | Default | What it does |
 |---|---|---|
-| `pickvernode.provider` | `auto` | Gestor a usar; `auto` = deteccion automatica |
-| `pickvernode.updateTerminalEnv` | `true` | Prefija el bin de la version en `terminal.integrated.env` (solo nvm POSIX y fnm) |
-| `pickvernode.nvmPath` | `""` | Ruta a `nvm.exe` en Windows (vacio = `%APPDATA%\nvm\nvm.exe`) |
-| `pickvernode.elevate` | `true` | Windows: ejecutar `nvm use` elevado (nvm-windows lo necesita) |
-| `pickvernode.autoWriteNvmrc` | `false` | Actualiza el `.nvmrc` en cada cambio de version |
-| `pickvernode.nvmrcPrefixV` | `true` | `.nvmrc` con prefijo `v` (`v20.18.0`) |
+| `pickvernode.provider` | `auto` | Manager to use; `auto` = autodetect |
+| `pickvernode.updateTerminalEnv` | `true` | Prepends the version's bin to `terminal.integrated.env` (nvm POSIX and fnm only) |
+| `pickvernode.nvmPath` | `""` | Path to `nvm.exe` on Windows (empty = `%APPDATA%\nvm\nvm.exe`) |
+| `pickvernode.elevate` | `true` | Windows: run `nvm use` elevated (nvm-windows requires it) |
+| `pickvernode.autoWriteNvmrc` | `false` | Update `.nvmrc` on every version switch |
+| `pickvernode.nvmrcPrefixV` | `true` | Write `.nvmrc` with the `v` prefix (`v20.18.0`) |
 
-## Notas tecnicas
+## Technical notes
 
-- nvm-windows exige consola real y admin: por eso `cmd.exe` + `Start-Process -Verb RunAs`.
-- En POSIX `nvm use` solo afecta a la shell que lo ejecuta; el estado persistente es el alias `default`.
-  Para que las terminales de VSCode tomen la version se escribe `terminal.integrated.env.<so>.PATH`
-  (desactivable con `pickvernode.updateTerminalEnv`).
-- Volta y asdf funcionan con shims: el cambio es global y no toca el PATH de VSCode.
-- La espera tras instalar/desinstalar sondea el disco cada 3s, con limite de 15 min.
+- nvm-windows needs a real console and admin rights: hence `cmd.exe` + `Start-Process -Verb RunAs`.
+- On POSIX, `nvm use` only affects the shell that runs it; the persistent state is the `default` alias.
+  To make VS Code terminals pick up the version, `terminal.integrated.env.<os>.PATH` is written
+  (disable with `pickvernode.updateTerminalEnv`).
+- Volta and asdf work with shims: the switch is global and does not touch VS Code's PATH.
+- After install/uninstall the disk is polled every 3s, with a 15 min cap.
 
-## Problemas comunes
+## Troubleshooting
 
-| Sintoma | Causa / solucion |
+| Symptom | Cause / fix |
 |---|---|
-| `Node $(warning)` en la barra | No hay gestor detectado. Instala uno o usa `Elegir gestor de versiones` |
-| `node -v` sigue viejo en la terminal | Terminal abierta antes del cambio. Cierrala y abre otra |
-| El UAC no aparece / falla el cambio en Windows | Revisa `pickvernode.nvmPath`; sin `pickvernode.elevate` nvm-windows no puede rehacer el symlink |
-| "no se pudo verificar contra nodejs.org" | Sin red o proxy. Escribe la version exacta `X.Y.Z` y confirma |
-| La version no aparece tras instalar | Mira la terminal `PickVerNode: install ...`: el error del gestor esta ahi |
+| `Node $(warning)` in the status bar | No manager detected. Install one or use `Elegir gestor de versiones` |
+| `node -v` still old in the terminal | Terminal was opened before the switch. Close it and open a new one |
+| No UAC prompt / switch fails on Windows | Check `pickvernode.nvmPath`; without `pickvernode.elevate` nvm-windows cannot rebuild the symlink |
+| "could not verify against nodejs.org" | No network or a proxy. Type the exact `X.Y.Z` version and confirm |
+| Version does not show up after install | Check the `PickVerNode: install ...` terminal: the manager's error is there |
 
-## Licencia
+## Support
+
+If PickVerNode saves you time, you can [sponsor the project](https://github.com/sponsors/MDMS29).
+
+## License
 
 MIT

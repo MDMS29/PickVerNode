@@ -1,14 +1,15 @@
 {
   "name": "PickVerNode",
   "displayName": "PickVerNode",
-  "description": "Instala, cambia y elimina la version de Node desde la barra de estado (nvm, nvm-windows, fnm, Volta, asdf)",
-  "version": "0.4.1",
+  "description": "Install, switch and remove Node versions from the VS Code status bar (nvm, nvm-windows, fnm, Volta, asdf)",
+  "version": "0.4.2",
   "publisher": "MoiDev",
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": [
-    "Other"
+    "Other",
+    "Programming Languages"
   ],
   "activationEvents": [
     "onStartupFinished"
@@ -93,26 +94,34 @@
   },
   "keywords": [
     "node",
+    "nodejs",
+    "node version",
+    "switch node version",
+    "node version manager",
     "nvm",
+    "nvm-windows",
     "fnm",
     "volta",
     "asdf",
-    "version manager",
-    "node"
+    "nvmrc",
+    "status bar",
+    "version switcher",
+    "toolchain"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/TU-USUARIO/pickvernode.git"
+    "url": "https://github.com/MDMS29/PickVerNode.git"
   },
   "bugs": {
-    "url": "https://github.com/TU-USUARIO/pickvernode/issues"
+    "url": "https://github.com/MDMS29/PickVerNode/issues"
   },
   "scripts": {
     "lint": "eslint src",
     "test": "vscode-test",
     "icon": "node scripts/make-icon.js",
-    "package": "vsce package",
-    "publish": "vsce publish"
+    "package": "npx --yes @vscode/vsce package",
+    "publish": "npx --yes @vscode/vsce publish",
+    "publish:ovsx": "npx --yes ovsx publish"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
@@ -122,5 +131,10 @@
     "@vscode/test-electron": "^3.0.0",
     "@vscode/vsce": "^3.6.0",
     "eslint": "^10.5.0"
-  }
+  },
+  "homepage": "https://github.com/MDMS29/PickVerNode#readme",
+  "sponsor": {
+    "url": "https://github.com/sponsors/MDMS29"
+  },
+  "qna": "https://github.com/MDMS29/PickVerNode/issues"
 }
