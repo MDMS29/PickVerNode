@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.5.0
+
+- Telemetria anonima y opt-out para saber que gestores y comandos se usan de verdad.
+- Nunca se envian rutas, nombres de proyecto ni contenido de archivos: solo un id anonimo de
+  instalacion, SO, version de VSCode/extension, gestor detectado y nombre del comando.
+- Se respeta el ajuste global `telemetry.telemetryLevel` de VSCode.
+- Nuevo ajuste `pickvernode.telemetry` para desactivarla solo en esta extension.
+
+## 0.4.2
+
+- README en ingles (`README.md`) + version en espanol (`README.es.md`) con enlaces cruzados.
+- Metadatos del marketplace corregidos: `repository`, `bugs`, `homepage`, `qna` apuntan al repo real.
+- Boton de patrocinio (`sponsor`) en la pagina del marketplace.
+- Keywords ampliadas y categoria `Programming Languages` para mejorar la busqueda.
+- `.vscodeignore` ampliado: el paquete ya no incluye `node_modules`, `.github` ni `.claude`.
+- Scripts `package` / `publish` via `npx`; nuevo script `publish:ovsx` para Open VSX.
+
 ## 0.4.0
 
 - Opcion "Guardar .nvmrc" en el QuickPick: crea o actualiza `.nvmrc` en la raiz de la carpeta abierta

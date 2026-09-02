@@ -2,7 +2,7 @@
   "name": "PickVerNode",
   "displayName": "PickVerNode",
   "description": "Install, switch and remove Node versions from the VS Code status bar (nvm, nvm-windows, fnm, Volta, asdf)",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "publisher": "MoiDev",
   "engines": {
     "vscode": "^1.85.0"
@@ -82,6 +82,11 @@
           "type": "boolean",
           "default": true,
           "description": "Escribir el .nvmrc con prefijo v (v20.18.0) en vez de 20.18.0"
+        },
+        "pickvernode.telemetry": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Enviar telemetria anonima de uso (que gestor se usa, que comandos se ejecutan). Nunca se envian rutas, nombres de proyecto ni contenido. Se desactiva tambien con el ajuste global `#telemetry.telemetryLevel#`."
         }
       }
     }

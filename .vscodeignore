@@ -13,3 +13,4 @@ vsc-extension-quickstart.md
 **/*.vsix
 **/eslint.config.mjs
 **/.vscode-test.*
+docs/**

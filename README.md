@@ -142,6 +142,22 @@ If you have several installed and want a specific one:
 | "could not verify against nodejs.org" | No network or a proxy. Type the exact `X.Y.Z` version and confirm |
 | Version does not show up after install | Check the `PickVerNode: install ...` terminal: the manager's error is there |
 
+## Telemetry
+
+PickVerNode collects **anonymous, opt-out** usage data to decide what to build next.
+
+**What is sent:** an anonymous install id (`vscode.env.machineId`), OS and architecture,
+VS Code and extension version, which version manager was detected, the name of the command you ran,
+and whether the workspace is multi-root.
+
+**What is never sent:** file paths, folder or repository names, file contents, environment variables,
+your Node versions' install locations, or anything typed into an input box.
+
+**How to turn it off** (either one is enough):
+
+- VS Code's global setting: `telemetry.telemetryLevel` -> `off`
+- This extension only: `pickvernode.telemetry` -> `false`
+
 ## Support
 
 If PickVerNode saves you time, you can [sponsor the project](https://github.com/sponsors/MDMS29).

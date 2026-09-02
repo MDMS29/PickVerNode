@@ -143,6 +143,22 @@ Si tienes varios instalados y quiere usar otro:
 | "no se pudo verificar contra nodejs.org" | Sin red o proxy. Escribe la version exacta `X.Y.Z` y confirma |
 | La version no aparece tras instalar | Mira la terminal `PickVerNode: install ...`: el error del gestor esta ahi |
 
+## Telemetria
+
+PickVerNode recoge datos de uso **anonimos y desactivables** para decidir que construir despues.
+
+**Que se envia:** un id anonimo de instalacion (`vscode.env.machineId`), SO y arquitectura,
+version de VSCode y de la extension, que gestor se detecto, el nombre del comando ejecutado
+y si el workspace es multi-root.
+
+**Que no se envia nunca:** rutas, nombres de carpeta o de repositorio, contenido de archivos,
+variables de entorno, ubicacion de tus versiones de Node, ni nada que escribas en un input.
+
+**Como desactivarla** (con cualquiera de las dos basta):
+
+- Ajuste global de VSCode: `telemetry.telemetryLevel` -> `off`
+- Solo esta extension: `pickvernode.telemetry` -> `false`
+
 ## Licencia
 
 MIT

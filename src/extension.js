@@ -3,6 +3,7 @@ const providers = require('./providers');
 const nodeIndex = require('./nodeIndex');
 const nvmrc = require('./nvmrc');
 const U = require('./util');
+const telemetry = require('./telemetry');
 
 const STATE_PROVIDER = 'pickvernode.provider';
 let item;
@@ -135,9 +136,11 @@ async function switchTo(p, version) {
         await p.use(version, cfg());
         await updateTerminalEnv(version);
       } catch (e) {
+        telemetry.track('switch', { provider: p.id, ok: false });
         vscode.window.showErrorMessage(`PickVerNode (${p.name}): fallo al cambiar - ${e.message}`);
         return;
       }
+      telemetry.track('switch', { provider: p.id, ok: true, major: String(version).split('.')[0] });
       await refresh();
       if (cfg().get('autoWriteNvmrc', false)) await writeNvmrc(version, { silent: true });
       vscode.window.showInformationMessage(
@@ -203,6 +206,11 @@ function runInstall(p, version, input) {
   const term = vscode.window.createTerminal(opts);
   term.show();
   term.sendText(p.installCommand(version, cfg()));
+  telemetry.track('install_started', {
+    provider: p.id,
+    major: String(version).split('.')[0],
+    input_kind: /^\d/.test(String(input).trim().replace(/^v/i, '')) ? 'version' : 'alias'
+  });
 
   if (String(input).trim().replace(/^v/i, '').toLowerCase() !== version) {
     vscode.window.showInformationMessage(`PickVerNode: "${input}" se resolvio a Node ${version}`);
@@ -277,6 +285,7 @@ function runUninstall(p, version) {
   const term = vscode.window.createTerminal(opts);
   term.show();
   term.sendText(p.uninstallCommand(version, cfg()));
+  telemetry.track('uninstall_started', { provider: p.id, major: String(version).split('.')[0] });
 
   waitForVersion(p, version, false).then(async ok => {
     if (!ok) return;
@@ -312,6 +321,11 @@ async function writeNvmrc(version, { silent = false } = {}) {
     if (!silent) vscode.window.showErrorMessage(`PickVerNode: no se pudo escribir ${nvmrc.FILE} - ${e.message}`);
     return;
   }
+  telemetry.track('nvmrc_written', {
+    updated: Boolean(result.previous),
+    auto: silent,
+    multiroot: nvmrc.folders().length > 1
+  });
   if (silent) return;
 
   const msg = result.previous
@@ -340,6 +354,7 @@ async function selectProvider() {
 
 function activate(context) {
   ctx = context;
+  telemetry.init(context);
 
   item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
   item.command = 'pickvernode.pick';
@@ -348,11 +363,24 @@ function activate(context) {
 
   context.subscriptions.push(
     item,
-    vscode.commands.registerCommand('pickvernode.pick', pick),
-    vscode.commands.registerCommand('pickvernode.refresh', () => resolveProvider({ force: true }).then(refresh)),
-    vscode.commands.registerCommand('pickvernode.selectProvider', selectProvider),
-    vscode.commands.registerCommand('pickvernode.writeNvmrc', () => writeNvmrc()),
+    vscode.commands.registerCommand('pickvernode.pick', () => {
+      telemetry.track('command', { name: 'pick' });
+      return pick();
+    }),
+    vscode.commands.registerCommand('pickvernode.refresh', () => {
+      telemetry.track('command', { name: 'refresh' });
+      return resolveProvider({ force: true }).then(refresh);
+    }),
+    vscode.commands.registerCommand('pickvernode.selectProvider', () => {
+      telemetry.track('command', { name: 'selectProvider' });
+      return selectProvider();
+    }),
+    vscode.commands.registerCommand('pickvernode.writeNvmrc', () => {
+      telemetry.track('command', { name: 'writeNvmrc' });
+      return writeNvmrc();
+    }),
     vscode.commands.registerCommand('pickvernode.uninstall', async () => {
+      telemetry.track('command', { name: 'uninstall' });
       const p = await resolveProvider();
       if (!p) {
         vscode.window.showErrorMessage('PickVerNode: no se detecto ningun gestor');
@@ -361,6 +389,7 @@ function activate(context) {
       await uninstallFlow(p);
     }),
     vscode.commands.registerCommand('pickvernode.install', async () => {
+      telemetry.track('command', { name: 'install' });
       const p = await resolveProvider();
       if (!p) {
         vscode.window.showErrorMessage('PickVerNode: no se detecto ningun gestor');
@@ -374,8 +403,25 @@ function activate(context) {
   );
 
   refresh();
+  reportActivation();
 }
 
-function deactivate() {}
+// Una sola vez por arranque: que gestor hay y como es el workspace.
+async function reportActivation() {
+  const found = await providers.detectAll(cfg()).catch(() => []);
+  const p = await resolveProvider().catch(() => null);
+  telemetry.track('activate', {
+    provider: p ? p.id : 'none',
+    detected: found.map(x => x.id).sort().join(','),
+    detected_count: found.length,
+    provider_setting: cfg().get('provider', 'auto'),
+    folders: (vscode.workspace.workspaceFolders || []).length,
+    multiroot: (vscode.workspace.workspaceFolders || []).length > 1
+  });
+}
+
+function deactivate() {
+  return telemetry.flush();
+}
 
 module.exports = { activate, deactivate };
