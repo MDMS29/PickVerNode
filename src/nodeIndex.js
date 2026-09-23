@@ -138,8 +138,11 @@ function supportPeek(version) {
 }
 
 // Candidatas a instalar: la Current + la ultima de cada linea aun soportada
-async function available({ limit = 8 } = {}) {
-  const [list, sched] = await Promise.all([releases(), schedule().catch(() => ({}))]);
+async function available({ limit = 8, useSchedule = true } = {}) {
+  const [list, sched] = await Promise.all([
+    releases(),
+    useSchedule ? schedule().catch(() => ({})) : Promise.resolve({})
+  ]);
   const today = new Date().toISOString().slice(0, 10);
   const seen = new Set();
   const out = [];

@@ -143,8 +143,10 @@ orange and a notification fires **once per version** (`No avisar de esta` rememb
 across windows). Dates come from the official `nodejs/Release` schedule, so no guessing: Node 18
 ended on 2025-04-30, Node 20 on 2026-04-30.
 
-Settings: `pickvernode.warnEndOfLife` (status bar) and `pickvernode.notifyEndOfLife`
-(notification).
+Settings: `pickvernode.warnEndOfLife` is the master switch - set it to `false` and every
+end-of-life hint disappears: the orange status bar, the notification, the support line in the
+version list and the **Support** row in the tooltip. The `nodejs/Release` schedule is not even
+fetched. `pickvernode.notifyEndOfLife` turns off only the notification and keeps the rest.
 
 ### Version mismatch warning
 

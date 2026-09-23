@@ -72,6 +72,12 @@ async function updateTerminalEnv(version) {
 
 // ---------- tooltip ----------
 
+// Interruptor unico de todo lo relacionado con el soporte de la version
+function supportOf(version) {
+  if (!version || !cfg().get('warnEndOfLife', true)) return null;
+  return nodeIndex.supportPeek(version);
+}
+
 function binPathOf(p, version) {
   if (!p || !version || typeof p.binDir !== 'function') return null;
   try {
@@ -112,7 +118,7 @@ function tooltip(p, version, req, ok) {
     originRow(p, req, ok)
   ];
 
-  const sup = nodeIndex.supportPeek(version);
+  const sup = supportOf(version);
   if (sup) {
     const txt = sup.eol
       ? `$(error) ${l10n.t('end of life since {0}', sup.end)}`
@@ -321,8 +327,8 @@ async function refresh() {
       return;
     }
 
-    const sup = v ? nodeIndex.supportPeek(v) : null;
-    if (sup && sup.eol && cfg().get('warnEndOfLife', true)) {
+    const sup = supportOf(v);
+    if (sup && sup.eol) {
       item.text = `$(versions) Node ${v} $(warning)`;
       item.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
       item.tooltip = tooltip(p, v, req, true);
@@ -497,7 +503,7 @@ function withTimeout(promise, ms, fallback) {
 // "LTS Iron", "Current", "" + estado de soporte para el detail
 function describe(version, { installed = true } = {}) {
   const rel = nodeIndex.peek(version);
-  const sup = nodeIndex.supportPeek(version);
+  const sup = supportOf(version);
   const tags = [];
 
   if (rel && rel.lts) tags.push(`LTS ${rel.lts}`);
@@ -540,7 +546,7 @@ async function pick() {
 
   // Catalogo de nodejs.org: si tarda mas de 1.5s se abre el QuickPick sin el
   const catalog = cfg().get('showAvailableVersions', true)
-    ? await withTimeout(nodeIndex.available(), 1500, [])
+    ? await withTimeout(nodeIndex.available({ useSchedule: cfg().get('warnEndOfLife', true) }), 1500, [])
     : [];
 
   const items = [];

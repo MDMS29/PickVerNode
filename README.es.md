@@ -145,8 +145,10 @@ pone naranja y sale un aviso **una sola vez por version** (`No avisar de esta` s
 ventanas). Las fechas salen del calendario oficial `nodejs/Release`, sin adivinar: Node 18 termino
 el 2025-04-30 y Node 20 el 2026-04-30.
 
-Ajustes: `pickvernode.warnEndOfLife` (barra de estado) y `pickvernode.notifyEndOfLife`
-(notificacion).
+Ajustes: `pickvernode.warnEndOfLife` es el interruptor general - ponlo en `false` y desaparece
+todo rastro del fin de soporte: barra naranja, notificacion, la linea de soporte en la lista de
+versiones y la fila **Soporte** del tooltip. Ni siquiera se consulta el calendario de
+`nodejs/Release`. `pickvernode.notifyEndOfLife` apaga solo la notificacion y deja lo demas.
 
 ### Aviso de version incorrecta
 

@@ -48,6 +48,9 @@
   (silenciable con "No avisar de esta", que se recuerda entre ventanas). Fechas del calendario
   oficial `nodejs/Release`.
 - Nuevos ajustes `pickvernode.warnEndOfLife` y `pickvernode.notifyEndOfLife`.
+  `pickvernode.warnEndOfLife: false` apaga **todo** el tema del soporte: barra naranja, aviso, la
+  fecha en la lista de versiones y la fila del tooltip, y ni siquiera se consulta el calendario de
+  `nodejs/Release`.
 - **Instalar la version del proyecto en un click**: si ninguna instalada cumple el requisito, el
   boton del aviso pasa a ser `Instalar la que pide` y la primera opcion de la lista a
   `Instalar la version del proyecto (>=20 <21)`. Si si hay una instalada, el boton dice a cual
