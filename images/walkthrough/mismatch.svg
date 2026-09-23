@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" width="640" height="300" role="img" aria-label="La barra de estado avisa cuando la version activa no es la que pide el proyecto">
+  <rect width="640" height="300" rx="10" fill="#1e1e1e"/>
+  <text x="32" y="44" font-family="Segoe UI,system-ui,sans-serif" font-size="17" fill="#cccccc">Si el proyecto pide otra version, te avisa. No cambia nada solo.</text>
+
+  <rect x="32" y="70" width="576" height="46" rx="6" fill="#252526" stroke="#454545"/>
+  <text x="48" y="99" font-family="Consolas,monospace" font-size="14" fill="#9d9d9d">package.json</text>
+  <text x="180" y="99" font-family="Consolas,monospace" font-size="14" fill="#9cdcfe">"engines"</text>
+  <text x="258" y="99" font-family="Consolas,monospace" font-size="14" fill="#cccccc">: {</text>
+  <text x="288" y="99" font-family="Consolas,monospace" font-size="14" fill="#9cdcfe">"node"</text>
+  <text x="340" y="99" font-family="Consolas,monospace" font-size="14" fill="#ce9178">: "&gt;=20 &lt;21"</text>
+  <text x="452" y="99" font-family="Consolas,monospace" font-size="14" fill="#cccccc">}</text>
+
+  <rect x="200" y="140" width="408" height="92" rx="6" fill="#252526" stroke="#454545"/>
+  <text x="220" y="172" font-family="Segoe UI,system-ui,sans-serif" font-size="13" fill="#cccccc">PickVerNode: este proyecto pide Node &gt;=20 &lt;21</text>
+  <text x="220" y="192" font-family="Segoe UI,system-ui,sans-serif" font-size="13" fill="#cccccc">(engines.node) y esta activa 18.20.4.</text>
+  <rect x="220" y="202" width="76" height="22" rx="3" fill="#0078d4"/>
+  <text x="234" y="218" font-family="Segoe UI,system-ui,sans-serif" font-size="12" fill="#ffffff">Cambiar</text>
+  <rect x="306" y="202" width="88" height="22" rx="3" fill="#3a3d41"/>
+  <text x="320" y="218" font-family="Segoe UI,system-ui,sans-serif" font-size="12" fill="#cccccc">Ver archivo</text>
+  <rect x="404" y="202" width="100" height="22" rx="3" fill="#3a3d41"/>
+  <text x="418" y="218" font-family="Segoe UI,system-ui,sans-serif" font-size="12" fill="#cccccc">No avisar aqui</text>
+
+  <rect x="0" y="262" width="640" height="38" fill="#007acc"/>
+  <rect x="424" y="262" width="150" height="38" fill="#f9a825">
+    <animate attributeName="opacity" values="1;0.55;1" dur="2s" repeatCount="indefinite"/>
+  </rect>
+  <text x="438" y="286" font-family="Segoe UI,system-ui,sans-serif" font-size="14" fill="#1e1e1e">&#9776; Node 18.20.4 &#9888;</text>
+</svg>

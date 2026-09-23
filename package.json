@@ -1,7 +1,7 @@
 {
   "name": "PickVerNode",
   "displayName": "PickVerNode",
-  "description": "Install, switch and remove Node versions from the VS Code status bar (nvm, nvm-windows, fnm, Volta, asdf)",
+  "description": "%extension.description%",
   "version": "0.5.0",
   "publisher": "MoiDev",
   "engines": {
@@ -19,27 +19,129 @@
     "commands": [
       {
         "command": "pickvernode.pick",
-        "title": "PickVerNode: Cambiar version de Node"
+        "title": "%cmd.pick%"
       },
       {
         "command": "pickvernode.install",
-        "title": "PickVerNode: Instalar una version de Node"
+        "title": "%cmd.install%"
       },
       {
         "command": "pickvernode.uninstall",
-        "title": "PickVerNode: Desinstalar una version de Node"
+        "title": "%cmd.uninstall%"
+      },
+      {
+        "command": "pickvernode.useRequired",
+        "title": "%cmd.useRequired%"
       },
       {
         "command": "pickvernode.writeNvmrc",
-        "title": "PickVerNode: Guardar .nvmrc con la version actual"
+        "title": "%cmd.writeNvmrc%"
+      },
+      {
+        "command": "pickvernode.openWalkthrough",
+        "title": "%cmd.openWalkthrough%"
+      },
+      {
+        "command": "pickvernode.revealBinFolder",
+        "title": "%cmd.revealBinFolder%"
+      },
+      {
+        "command": "pickvernode.enableCorepack",
+        "title": "%cmd.enableCorepack%"
+      },
+      {
+        "command": "pickvernode.checkFolders",
+        "title": "%cmd.checkFolders%"
+      },
+      {
+        "command": "pickvernode.copyBinPath",
+        "title": "%cmd.copyBinPath%"
       },
       {
         "command": "pickvernode.refresh",
-        "title": "PickVerNode: Refrescar version actual"
+        "title": "%cmd.refresh%"
       },
       {
         "command": "pickvernode.selectProvider",
-        "title": "PickVerNode: Elegir gestor de versiones"
+        "title": "%cmd.selectProvider%"
+      }
+    ],
+    "terminalProfiles": [
+      {
+        "id": "pickvernode.terminal",
+        "title": "%terminalProfile.title%",
+        "icon": "versions"
+      }
+    ],
+    "walkthroughs": [
+      {
+        "id": "pickvernode.setup",
+        "title": "%walkthrough.title%",
+        "description": "%walkthrough.description%",
+        "steps": [
+          {
+            "id": "pickvernode.step.manager",
+            "title": "%walkthrough.manager.title%",
+            "description": "%walkthrough.manager.description%",
+            "media": {
+              "svg": "images/walkthrough/managers.svg",
+              "altText": "%walkthrough.manager.alt%"
+            },
+            "completionEvents": [
+              "onCommand:pickvernode.selectProvider"
+            ]
+          },
+          {
+            "id": "pickvernode.step.switch",
+            "title": "%walkthrough.switch.title%",
+            "description": "%walkthrough.switch.description%",
+            "media": {
+              "svg": "images/walkthrough/switch.svg",
+              "altText": "%walkthrough.switch.alt%"
+            },
+            "completionEvents": [
+              "onCommand:pickvernode.pick"
+            ]
+          },
+          {
+            "id": "pickvernode.step.nvmrc",
+            "title": "%walkthrough.nvmrc.title%",
+            "description": "%walkthrough.nvmrc.description%",
+            "media": {
+              "svg": "images/walkthrough/nvmrc.svg",
+              "altText": "%walkthrough.nvmrc.alt%"
+            },
+            "completionEvents": [
+              "onCommand:pickvernode.writeNvmrc"
+            ]
+          },
+          {
+            "id": "pickvernode.step.mismatch",
+            "title": "%walkthrough.mismatch.title%",
+            "description": "%walkthrough.mismatch.description%",
+            "media": {
+              "svg": "images/walkthrough/mismatch.svg",
+              "altText": "%walkthrough.mismatch.alt%"
+            },
+            "completionEvents": [
+              "onCommand:pickvernode.useRequired",
+              "onSettingChanged:pickvernode.checkRequiredVersion"
+            ]
+          },
+          {
+            "id": "pickvernode.step.uac",
+            "title": "%walkthrough.uac.title%",
+            "description": "%walkthrough.uac.description%",
+            "when": "isWindows",
+            "media": {
+              "svg": "images/walkthrough/managers.svg",
+              "altText": "%walkthrough.uac.alt%"
+            },
+            "completionEvents": [
+              "onSettingChanged:pickvernode.elevate"
+            ]
+          }
+        ]
       }
     ],
     "configuration": {
@@ -56,37 +158,68 @@
             "asdf"
           ],
           "default": "auto",
-          "description": "Gestor de versiones de Node a usar"
+          "description": "%cfg.provider%"
         },
         "pickvernode.updateTerminalEnv": {
           "type": "boolean",
           "default": true,
-          "description": "Prefijar el bin de la version elegida en terminal.integrated.env (solo gestores por shell: nvm POSIX, fnm)"
+          "description": "%cfg.updateTerminalEnv%"
         },
         "pickvernode.nvmPath": {
           "type": "string",
           "default": "",
-          "description": "Ruta a nvm.exe en Windows (vacio = %APPDATA%\\nvm\\nvm.exe)"
+          "description": "%cfg.nvmPath%"
         },
         "pickvernode.elevate": {
           "type": "boolean",
           "default": true,
-          "description": "Windows: ejecutar 'nvm use' elevado (nvm-windows necesita admin para el symlink)"
+          "description": "%cfg.elevate%"
         },
         "pickvernode.autoWriteNvmrc": {
           "type": "boolean",
           "default": false,
-          "description": "Actualizar el .nvmrc del proyecto cada vez que se cambia de version"
+          "description": "%cfg.autoWriteNvmrc%"
         },
         "pickvernode.nvmrcPrefixV": {
           "type": "boolean",
           "default": true,
-          "description": "Escribir el .nvmrc con prefijo v (v20.18.0) en vez de 20.18.0"
+          "description": "%cfg.nvmrcPrefixV%"
+        },
+        "pickvernode.pollSeconds": {
+          "type": "number",
+          "default": 20,
+          "minimum": 0,
+          "description": "%cfg.pollSeconds%"
+        },
+        "pickvernode.checkRequiredVersion": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "%cfg.checkRequiredVersion%"
+        },
+        "pickvernode.notifyRequiredVersion": {
+          "type": "boolean",
+          "default": true,
+          "description": "%cfg.notifyRequiredVersion%"
+        },
+        "pickvernode.warnEndOfLife": {
+          "type": "boolean",
+          "default": true,
+          "description": "%cfg.warnEndOfLife%"
+        },
+        "pickvernode.notifyEndOfLife": {
+          "type": "boolean",
+          "default": true,
+          "description": "%cfg.notifyEndOfLife%"
+        },
+        "pickvernode.showAvailableVersions": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "%cfg.showAvailableVersions%"
         },
         "pickvernode.telemetry": {
           "type": "boolean",
           "default": true,
-          "markdownDescription": "Enviar telemetria anonima de uso (que gestor se usa, que comandos se ejecutan). Nunca se envian rutas, nombres de proyecto ni contenido. Se desactiva tambien con el ajuste global `#telemetry.telemetryLevel#`."
+          "markdownDescription": "%cfg.telemetry%"
         }
       }
     }
@@ -121,12 +254,12 @@
     "url": "https://github.com/MDMS29/PickVerNode/issues"
   },
   "scripts": {
-    "lint": "eslint src",
+    "lint": "eslint src test",
     "test": "vscode-test",
     "icon": "node scripts/make-icon.js",
-    "package": "npx --yes @vscode/vsce package",
-    "publish": "npx --yes @vscode/vsce publish",
-    "publish:ovsx": "npx --yes ovsx publish"
+    "package": "vsce package",
+    "publish": "vsce publish",
+    "publish:ovsx": "ovsx publish"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
@@ -135,11 +268,14 @@
     "@vscode/test-cli": "^0.0.15",
     "@vscode/test-electron": "^3.0.0",
     "@vscode/vsce": "^3.6.0",
-    "eslint": "^10.5.0"
+    "eslint": "^10.5.0",
+    "globals": "^17.0.0",
+    "ovsx": "^1.2.0"
   },
   "homepage": "https://github.com/MDMS29/PickVerNode#readme",
   "sponsor": {
     "url": "https://github.com/sponsors/MDMS29"
   },
-  "qna": "https://github.com/MDMS29/PickVerNode/issues"
+  "qna": "https://github.com/MDMS29/PickVerNode/issues",
+  "l10n": "./l10n"
 }
