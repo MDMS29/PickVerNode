@@ -2,7 +2,7 @@
   "name": "PickVerNode",
   "displayName": "PickVerNode",
   "description": "%extension.description%",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "publisher": "MoiDev",
   "engines": {
     "vscode": "^1.85.0"
