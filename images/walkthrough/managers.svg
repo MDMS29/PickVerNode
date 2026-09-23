@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" width="640" height="300" role="img" aria-label="PickVerNode detecta el gestor de versiones instalado">
+  <rect width="640" height="300" rx="10" fill="#1e1e1e"/>
+  <text x="32" y="48" font-family="Segoe UI,system-ui,sans-serif" font-size="17" fill="#cccccc">PickVerNode no instala Node: usa el gestor que ya tienes.</text>
+
+  <g font-family="Segoe UI,system-ui,sans-serif" font-size="14">
+    <g>
+      <rect x="32" y="78" width="160" height="40" rx="6" fill="#2d2d2d" stroke="#3c3c3c"/>
+      <text x="48" y="103" fill="#cccccc">nvm-windows</text>
+    </g>
+    <g>
+      <rect x="208" y="78" width="120" height="40" rx="6" fill="#2d2d2d" stroke="#3c3c3c"/>
+      <text x="224" y="103" fill="#cccccc">nvm</text>
+    </g>
+    <g>
+      <rect x="344" y="78" width="120" height="40" rx="6" fill="#0e3a5c" stroke="#0078d4" stroke-width="2"/>
+      <text x="360" y="103" fill="#ffffff">fnm</text>
+      <text x="360" y="103" fill="#ffffff" opacity="0">.</text>
+      <rect x="344" y="78" width="120" height="40" rx="6" fill="#0078d4" opacity="0">
+        <animate attributeName="opacity" values="0;0.25;0" dur="2.4s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+    <g>
+      <rect x="480" y="78" width="120" height="40" rx="6" fill="#2d2d2d" stroke="#3c3c3c"/>
+      <text x="496" y="103" fill="#cccccc">Volta</text>
+    </g>
+    <g>
+      <rect x="32" y="134" width="120" height="40" rx="6" fill="#2d2d2d" stroke="#3c3c3c"/>
+      <text x="48" y="159" fill="#cccccc">asdf</text>
+    </g>
+  </g>
+
+  <text x="32" y="212" font-family="Segoe UI,system-ui,sans-serif" font-size="13" fill="#9d9d9d">Detectado automaticamente al arrancar. Puedes forzar uno con pickvernode.provider.</text>
+
+  <rect x="0" y="262" width="640" height="38" fill="#007acc"/>
+  <text x="446" y="286" font-family="Segoe UI,system-ui,sans-serif" font-size="14" fill="#ffffff">&#9776; Node 20.18.0</text>
+  <text x="24" y="286" font-family="Segoe UI,system-ui,sans-serif" font-size="14" fill="#ffffff">main</text>
+</svg>

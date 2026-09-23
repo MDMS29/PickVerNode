@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" width="640" height="300" role="img" aria-label="Guardar la version actual en un archivo .nvmrc">
+  <rect width="640" height="300" rx="10" fill="#1e1e1e"/>
+  <text x="32" y="44" font-family="Segoe UI,system-ui,sans-serif" font-size="17" fill="#cccccc">Deja fijada la version para el resto del equipo.</text>
+
+  <rect x="32" y="70" width="250" height="160" rx="6" fill="#252526" stroke="#454545"/>
+  <text x="48" y="96" font-family="Segoe UI,system-ui,sans-serif" font-size="13" fill="#9d9d9d">EXPLORADOR</text>
+  <g font-family="Segoe UI,system-ui,sans-serif" font-size="14" fill="#cccccc">
+    <text x="48" y="126">src</text>
+    <text x="48" y="154">package.json</text>
+    <text x="48" y="182" fill="#73c991" opacity="0">.nvmrc
+      <animate attributeName="opacity" values="0;0;1;1" dur="3.5s" repeatCount="indefinite"/>
+    </text>
+  </g>
+
+  <rect x="310" y="70" width="298" height="160" rx="6" fill="#1e1e1e" stroke="#454545"/>
+  <text x="326" y="96" font-family="Consolas,monospace" font-size="13" fill="#9d9d9d">.nvmrc</text>
+  <text x="326" y="132" font-family="Consolas,monospace" font-size="20" fill="#ce9178" opacity="0">v20.18.0
+    <animate attributeName="opacity" values="0;0;1;1" dur="3.5s" repeatCount="indefinite"/>
+  </text>
+  <text x="326" y="176" font-family="Segoe UI,system-ui,sans-serif" font-size="12" fill="#9d9d9d">Tambien se lee .node-version,</text>
+  <text x="326" y="196" font-family="Segoe UI,system-ui,sans-serif" font-size="12" fill="#9d9d9d">.tool-versions y engines.node</text>
+
+  <rect x="0" y="262" width="640" height="38" fill="#007acc"/>
+  <text x="446" y="286" font-family="Segoe UI,system-ui,sans-serif" font-size="14" fill="#ffffff">&#9776; Node 20.18.0</text>
+</svg>

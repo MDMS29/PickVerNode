@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" width="640" height="300" role="img" aria-label="Un click en la barra de estado abre la lista de versiones de Node">
+  <rect width="640" height="300" rx="10" fill="#1e1e1e"/>
+
+  <rect x="120" y="30" width="400" height="200" rx="8" fill="#252526" stroke="#454545"/>
+  <rect x="120" y="30" width="400" height="36" rx="8" fill="#3c3c3c"/>
+  <text x="136" y="54" font-family="Segoe UI,system-ui,sans-serif" font-size="14" fill="#cccccc">Version de Node (fnm)</text>
+
+  <g font-family="Segoe UI,system-ui,sans-serif" font-size="14">
+    <rect x="120" y="74" width="400" height="30" fill="#04395e"/>
+    <text x="136" y="94" fill="#ffffff">&#8681;  Instalar una version...</text>
+    <text x="136" y="126" fill="#cccccc">&#128462;  Guardar .nvmrc (20.18.0)</text>
+    <text x="136" y="158" fill="#cccccc">&#10003;  20.18.0</text>
+    <text x="400" y="158" fill="#7a7a7a" font-size="12">en uso</text>
+    <text x="136" y="190" fill="#cccccc">22.20.0</text>
+    <text x="136" y="218" fill="#cccccc">18.20.4</text>
+  </g>
+
+  <rect x="120" y="74" width="400" height="30" fill="#04395e" opacity="0">
+    <animate attributeName="y" values="74;142;178;74" dur="4s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0;1;1;0" dur="4s" repeatCount="indefinite"/>
+  </rect>
+
+  <rect x="0" y="262" width="640" height="38" fill="#007acc"/>
+  <text x="446" y="286" font-family="Segoe UI,system-ui,sans-serif" font-size="14" fill="#ffffff">&#9776; Node 20.18.0</text>
+  <circle cx="440" cy="281" r="16" fill="#ffffff" opacity="0">
+    <animate attributeName="opacity" values="0;0.35;0" dur="4s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="4;22;4" dur="4s" repeatCount="indefinite"/>
+  </circle>
+</svg>
